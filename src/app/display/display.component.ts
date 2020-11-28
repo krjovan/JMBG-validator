@@ -9,21 +9,31 @@ import {DogadjajiService} from '../services/dogadjaji.service';
 export class DisplayComponent implements OnInit,OnChanges {
 
   @Input() display;
+  jednom=false;
+  staroStanje=[];
   constructor(private service:DogadjajiService) { }
   ngOnChanges(changes: SimpleChanges): void {
-
+    this.jednom=false;
   }
   ngOnInit(): void {
-    this.service.getDogadjaji(8,30).subscribe(obj=>{
-      let niz;
-      let prvi=obj.data.Events.filter(el=>el.year=="1996").map(el=>{el.dogadjaj="Događaj"; return el;});
-      let drugi=obj.data.Births.filter(el=>el.year=="1996").map(el=>{el.dogadjaj="Rođendan"; return el;});
-      let treci=obj.data.Deaths.filter(el=>el.year=="1996").map(el=>{el.dogadjaj="Smrt"; return el;});
-      niz=prvi.concat(drugi,treci);
-      console.log("heeej",niz);
-    });
+
   }
 
+  dogodiloSe(datum:Date) {
+    if(!this.jednom){
+        this.service.getDogadjaji((datum.getMonth()+1),datum.getDate()).subscribe(obj=>{
+          let niz;
+          let prvi=obj.data.Events.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Događaj"; return el;});
+          let drugi=obj.data.Births.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Rođendan"; return el;});
+          let treci=obj.data.Deaths.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Smrt"; return el;});
+          niz=prvi.concat(drugi,treci);
+          this.staroStanje=niz;
+          this.jednom=true;
+          console.log(niz);
+          return niz;
+    });
+    }else return this.staroStanje;
+  }
   godineRodjenja(godine):number{
     var timeDiff = Math.abs(Date.now() - godine.getTime());
     return Math.floor((timeDiff / (1000 * 3600 * 24))/365);

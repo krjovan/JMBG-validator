@@ -7,7 +7,7 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DogadjajiService {
-  API_URL = "http://history.muffinlabs.com/date/";
+  API_URL = "https://for-ned.herokuapp.com/date?mesec=";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -15,7 +15,7 @@ export class DogadjajiService {
     const headers = new HttpHeaders().set('Accept', 'application/json' );
     headers.set('Access-Control-Allow-Origin','*');
     headers.set('Access-Control-Allow-Headers','Access-Control-Allow-Headers');
-    return this.httpClient.get<any>(this.API_URL+mesec+"/"+dan, { 'headers': headers })
+    return this.httpClient.get<any>(this.API_URL+mesec+"&dan="+dan, { 'headers': headers })
     .pipe(catchError((error: Response) => {
       return throwError(error);
   }));
