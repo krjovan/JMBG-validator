@@ -3,13 +3,12 @@
     <div class="w3-container w3-teal">
       <h2>Uneti potrebne podatke</h2>
     </div>
-    <form class="w3-container">
+    <form class="w3-container" #formControl="ngForm">
       <p>
       <label class="w3-text-teal"><b>JMBG</b></label>
-      <input [(ngModel)]="jmbg" class="w3-input w3-border w3-light-grey" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" pattern="[0-9]+" minlength="13" maxlength="13" name="jmbg" type="text"></p>
-      <div *ngFor="let greska of nizGresaka">{{greska}} abc</div>
+      <input required [(ngModel)]="jmbg" class="w3-input w3-border w3-light-grey" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" pattern="[0-9]+" minlength="13" maxlength="13" name="jmbg" type="text"></p>
       <p class="w3-center">
-      <button (click)="validate()" class="w3-btn w3-teal">Validacija</button></p>
+      <button [disabled]="!formControl.valid" (click)="validate()" class="w3-btn w3-teal">Validacija</button></p>
     </form>
   </div>
 </div>

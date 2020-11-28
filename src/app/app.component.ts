@@ -1,25 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
 
   title = 'JMBG-validator';
-
   jmbg: string;
-  nizGresaka: string[];
-
-  ngOnInit(): void {
-    this.nizGresaka.push('prva greska');
-    this.nizGresaka.push('druga greska');
-    this.nizGresaka.push('treca greska');
-    this.nizGresaka.push('cetvrta greska');
-  }
 
   validate(){
+    if(this.jmbg == null || this.jmbg.length < 13) {
+      window.alert("JMBG mora sadrzati 13 cifara!");
+      return;
+    }
     window.alert(this.jmbg);
   }
 }
