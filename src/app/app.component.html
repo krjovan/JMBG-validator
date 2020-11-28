@@ -1,20 +1,15 @@
-<div class="left w3-padding">
+<div class="w3-center w3-padding" style="margin:0 auto; max-width: 450px;">
   <div class="w3-card-4">
     <div class="w3-container w3-teal">
       <h2>Uneti potrebne podatke</h2>
     </div>
-    <form class="w3-container" action="/action_page.php">
-      <p>
-      <label class="w3-text-teal"><b>Ime</b></label>
-      <input class="w3-input w3-border w3-light-grey" name="ime" type="text"></p>
-      <p>
-      <label class="w3-text-teal"><b>Prezime</b></label>
-      <input class="w3-input w3-border w3-light-grey" name="prezime" type="text"></p>
+    <form class="w3-container">
       <p>
       <label class="w3-text-teal"><b>JMBG</b></label>
-      <input class="w3-input w3-border w3-light-grey" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" pattern="[0-9]+" minlength="13" maxlength="13" name="jmbg" type="text"></p>
+      <input [(ngModel)]="jmbg" class="w3-input w3-border w3-light-grey" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" pattern="[0-9]+" minlength="13" maxlength="13" name="jmbg" type="text"></p>
+      <div *ngFor="let greska of nizGresaka">{{greska}} abc</div>
       <p class="w3-center">
-      <button class="w3-btn w3-teal">Validacija</button></p>
+      <button (click)="validate()" class="w3-btn w3-teal">Validacija</button></p>
     </form>
   </div>
 </div>
