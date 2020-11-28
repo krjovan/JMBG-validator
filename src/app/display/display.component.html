@@ -9,8 +9,9 @@
             <div *ngFor="let dog of dogodiloSe(display.datum)">
                 <div *ngIf="dog.dogadjaj=='Događaj'"><p style="color:#8c6f8d; display:inline;">&#9873; {{dog.text}}</p></div>
                 <div *ngIf="dog.dogadjaj=='Rođendan'"><p style="color:#55b54c; display:inline;">&#9787; Rodio se</p> {{dog.text}}</div>
-                <div *ngIf="dog.dogadjaj=='Smrt'"><p style="color:#cc0001; display:inline;">&#9766; Umro je</p> {{dog.text}}</div>
+                <div *ngIf="dog.dogadjaj=='Smrt'"><p style="color:#3f443e; display:inline;">&#9766; Umro je</p> {{dog.text}}</div>
             </div>
+            <div *ngIf="dogodiloSe(display.datum).length==0"><p style="color:#ff6816; display:inline;">&#9733; Nažalost nema događaja za dati datum. &#9733;</p></div>
             <div class="w3-container" style="padding-bottom: 30px;">
                 <div style="margin-left:50px; margin-top:50px; text-align: left; float:left;">
                     <div class="razmak"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Datum rođenja:</b></label>

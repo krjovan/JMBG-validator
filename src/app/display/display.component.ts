@@ -29,7 +29,6 @@ export class DisplayComponent implements OnInit,OnChanges {
           niz=prvi.concat(drugi,treci);
           this.staroStanje=niz;
           this.jednom=true;
-          console.log(niz);
           return niz;
     });
     }else return this.staroStanje;
