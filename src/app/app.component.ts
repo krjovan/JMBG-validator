@@ -18,6 +18,8 @@ export class AppComponent {
   dani:string[]=["Nedelja","Ponedeljak","Utorak","Sreda","Četvrtak","Petak","Subota"];
 
   validate(){
+    this.display={jmbg:"",datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
+    this.nizGresaka=[];
     if(this.jmbg == null || this.jmbg.length != 13) {
       this.nizGresaka.push("JMBG mora sadrzati 13 cifara!");
       return;
