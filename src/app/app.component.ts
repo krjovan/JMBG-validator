@@ -18,7 +18,7 @@ export class AppComponent {
   dani:string[]=["Nedelja","Ponedeljak","Utorak","Sreda","Četvrtak","Petak","Subota"];
 
   validate(){
-    this.display={jmbg:"",datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
+   // this.display={jmbg:"",datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
     this.nizGresaka=[];
     if(this.jmbg == null || this.jmbg.length != 13) {
       this.nizGresaka.push("JMBG mora sadrzati 13 cifara!");
@@ -35,6 +35,31 @@ export class AppComponent {
     let godina=Number(this.jmbg.substring(4,7));
     godina+=(godina>799&&godina<1000)?1000:2000;
 
+    let vecrekaoZaGodinu=false;
+    if((dan>31)&&(mesec==1||mesec==3||mesec==5||mesec==7||mesec==8||mesec==10||mesec==12))
+    {
+      vecrekaoZaGodinu=true;
+      this.nizGresaka.push("Uneli ste vise od 31 dan za dati mesec! (proverite prve dve cifre)");    
+    }
+
+    if((dan>30)&&(mesec==4||mesec==6||mesec==9||mesec==11))
+    {
+      vecrekaoZaGodinu=true;
+      this.nizGresaka.push("Uneli ste vise od 30 dana za dati mesec! (proverite prve dve cifre)");    
+    }
+
+    if((mesec==2)&&(this.jelPrestupna(godina))&&(dan>29))
+    {
+      vecrekaoZaGodinu=true;
+      this.nizGresaka.push("Uneli ste vise od 29 dana za februar! (proverite prve dve cifre)");    
+    }
+
+    if((mesec==2)&&(!this.jelPrestupna(godina))&&(dan>28))
+    {
+      vecrekaoZaGodinu=true;
+      this.nizGresaka.push("Uneli ste vise od 28 dana za februar! (proverite prve dve cifre)");    
+    }
+
     let region=Number(this.jmbg.substring(7,9));
     let broj=Number(this.jmbg.substring(9,12));
     let kontrolnaCifra=Number(this.jmbg.substring(12,13));
@@ -43,11 +68,13 @@ export class AppComponent {
 
     //window.alert(this.isValidDate(datumRodjenja));
     if(!this.isValidDate(datumRodjenja))
-      this.nizGresaka.push("Uneli ste nepostojeci datum rodjenja! (proverite prvih sedam cifara)");
+      if(!vecrekaoZaGodinu){
+        this.nizGresaka.push("Uneli ste nepostojeci datum rodjenja! (proverite prvih sedam cifara)");
+      }
 
     if(today<datumRodjenja)
       this.nizGresaka.push("Uneli ste datum u buducnosti! (proverite prvih sedam cifara)");
-
+  
     let me=this,nasao=false;
     Object.keys(this.regioni).forEach(function (key) {
       if(Number(key)==region){
@@ -72,6 +99,17 @@ export class AppComponent {
     }
   }
 
+  jelPrestupna(godina){
+    if(godina%400 === 0) {
+     return true;
+    } else if ((godina%100 !==0) &&(godina%4 === 0)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
   kontrolnaCifra():boolean{
     // ABVGDĐEŽZIJKL
     let a=  Number(this.jmbg.substring(0,1));

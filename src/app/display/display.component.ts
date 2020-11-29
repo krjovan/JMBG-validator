@@ -25,8 +25,8 @@ export class DisplayComponent implements OnInit,OnChanges {
           let niz;
           let prvi=obj.data.Events.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Događaj"; return el;});
           let drugi=obj.data.Births.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Rođendan"; return el;});
-          let treci=obj.data.Deaths.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Smrt"; return el;});
-          niz=prvi.concat(drugi,treci);
+          //let treci=obj.data.Deaths.filter(el=>el.year==datum.getFullYear()).map(el=>{el.dogadjaj="Smrt"; return el;});
+          niz=prvi.concat(drugi);
           this.staroStanje=niz;
           this.jednom=true;
           return niz;
