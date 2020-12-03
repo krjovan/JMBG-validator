@@ -5,10 +5,37 @@
     </div>
     <form class="w3-container" #formControl="ngForm">
       <p>
-      <label class="w3-text-teal"><b>JMBG</b></label>
-      <input style="text-align: center;" required [(ngModel)]="jmbg" (ngModelChange)="changeJMBG()" class="w3-input w3-border w3-light-grey" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" pattern="[0-9]+" minlength="13" maxlength="13" name="jmbg" type="text"></p>
+        <label class="w3-text-teal">
+          <b>Ime</b>
+        </label>
+        <label class="w3-text-grey" style="font-style: italic">
+          <b> (opciono)</b>
+        </label>
+        <input style="text-align: center;" class="w3-input w3-border w3-light-grey">
+      </p>
+      <p>
+        <label class="w3-text-teal">
+          <b>Prezime</b>
+        </label>
+        <label class="w3-text-grey" style="font-style: italic">
+          <b> (opciono)</b>
+        </label>
+        <input style="text-align: center;" class="w3-input w3-border w3-light-grey">
+      </p>
+      <p>
+        <label class="w3-text-teal">
+          <b>JMBG</b>
+        </label>
+        <label class="w3-text-red" style="font-style: italic">
+          <b> (obavezno)</b>
+        </label>
+        <input style="text-align: center;" required [(ngModel)]="jmbg" (ngModelChange)="changeJMBG()" class="w3-input w3-border w3-light-grey"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" pattern="[0-9]+" minlength="13"
+          maxlength="13" name="jmbg" type="text">
+      </p>
       <p class="w3-center">
-      <button [disabled]="!formControl.valid" (click)="validate()" class="w3-btn w3-teal">Validacija</button></p>
+        <button [disabled]="!formControl.valid" (click)="validate()" class="w3-btn w3-teal">Validacija</button>
+      </p>
     </form>
     <div *ngFor="let greska of nizGresaka" class="greska">{{greska}}</div>
   </div>
