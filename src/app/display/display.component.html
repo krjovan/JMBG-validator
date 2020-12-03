@@ -1,58 +1,130 @@
 <div *ngIf="display.jmbg.length==13" style="width:100%; text-align: center; margin-bottom: 20px;">
-    <div class="w3-center w3-padding" style="margin:0 auto; max-width: 800px;">
-        <div class="w3-card-4">
-            <div  [ngClass]="{'w3-indigo': display.pol=='Muški', 'w3-pink': display.pol=='Ženski'}"
-            class="w3-container">
-                <h2>Podaci o osobi na osnovu JMBGa</h2>
-            </div>  
-            <div class="razmakGore"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>{{display.datum | date : "dd.MM.yyyy."}} se dogodilo:</b></label><br></div>
-            <div *ngFor="let dog of dogodiloSe(display.datum)">
-                <div *ngIf="dog.dogadjaj=='Događaj'"><p style="color:#8c6f8d; display:inline;">&#9873; {{dog.text}}</p></div>
-                <div *ngIf="dog.dogadjaj=='Rođendan'"><p style="color:#55b54c; display:inline;">&#9787; Rodio se</p> {{dog.text}}</div>
-                <!--<div *ngIf="dog.dogadjaj=='Smrt'"><p style="color:#3f443e; display:inline;">&#9766; Umro je</p> {{dog.text}}</div>-->
-            </div>
-            <div *ngIf="dogodiloSe(display.datum).length==0"><p style="color:#ff6816; display:inline;">&#9733; Nažalost nema događaja za dati datum. &#9733;</p></div>
-            <div class="w3-container" style="padding-bottom: 30px;">
-                <div style="margin-left:50px; margin-top:50px; text-align: left; float:left;">
-                    <div class="razmak"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Datum rođenja:</b></label>
-                    {{display.datum | date : "dd.MM.yyyy."}}<br></div>
-                    <div class="razmak"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Godine:</b></label>
-                    {{godineRodjenja(display.datum)}}<br></div>
-                    <div class="razmak"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Dan rođenja:</b></label>
-                    {{display.danUNedelji}}<br></div>
-                    <div class="razmak" style="max-width:400px; text-align: justify;"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Mesto rođenja (širi region):</b></label>
-                    {{display.siriRegion}}<br></div>
-                    <div class="razmak" style="max-width:400px; text-align: justify;"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Mesto rođenja (uži region):</b></label>
-                    {{display.uziRegion}}<br></div>
-                    <div class="razmak"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Pol:</b></label>
-                    {{display.pol}}<br></div>
-                    <div class="razmak"><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Redosled rođenja:</b></label>
-                    {{display.redosled}}
-                    <span [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"> (za dati datum, oblast i pol)</span>
-                    <br>
-                </div>
-                </div>
-                <img *ngIf="display.pol=='Ženski'" src="../../assets/female.png" style="margin-right: 25px; margin-top: 24px; display: unset; width: 200px; height: 200px; float:right">
-                <img *ngIf="display.pol=='Muški'" src="../../assets/male.jpg" style="margin-right: 25px; margin-top: 24px; display: unset; width: 200px; height: 200px; float:right">
-            </div>
-            <div style="width: 100%; padding-bottom: 30px;" >
-                <div ><label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"><b>Formula za računanje kontrolne cifre:</b></label><br></div>
-                <p style="font-size: 12px;;">L = 11 – (( 7*(A+E) + 6*(B+Ž) + 5*(V+Z) + 4*(G+I) + 3*(D+J) + 2*(Đ+K) ) % 11)</p>
-                <p style="font-size: 12px;;">L = 11 – (( 7*({{vrednost(display.jmbg,"A")}}+{{vrednost(display.jmbg,"E")}}) + 6*({{vrednost(display.jmbg,"B")}}+{{vrednost(display.jmbg,"ZJ")}}) 
-                    + 5*({{vrednost(display.jmbg,"V")}}+{{vrednost(display.jmbg,"Z")}}) + 4*({{vrednost(display.jmbg,"G")}}+{{vrednost(display.jmbg,"I")}}) + 3*({{vrednost(display.jmbg,"D")}}+{{vrednost(display.jmbg,"J")}}) + 2*({{vrednost(display.jmbg,"DJ")}}+{{vrednost(display.jmbg,"K")}}) ) % 11)</p>
-                <p style="font-size: 12px;;">L = 11 – (( 7*{{vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E")}} + 6*{{vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ")}} 
-                    + 5*{{vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")}} + 4*{{vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I")}} + 3*{{vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J")}} + 2*{{vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")}} ) % 11)</p>
-                <p style="font-size: 12px;;">L = 11 – (( {{7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))}} + {{6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))}} 
-                    + {{5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z"))}} + {{4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))}} + {{3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))}} + {{2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K"))}} ) % 11)</p>
-                <p style="font-size: 12px;;">L = 11 – ({{7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ")) 
-                    +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K"))}} % 11)</p>
-                <p style="font-size: 12px;;">L = 11 – {{(7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ")) 
-                    +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")))% 11}}</p>
-                <p style="font-size: 12px;;">L = {{11-(7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ")) 
-                    +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")))% 11}}</p>
-                <p [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}" *ngIf="display.kontrolnaCifra>0&&display.kontrolnaCifra<10" style="font-size: 12px;;">Rezultat računice je jednak sa poslednjom cifrom JMBGA, odnosno {{display.kontrolnaCifra}}.</p>
-                <p [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}" *ngIf="display.kontrolnaCifra==0"style="font-size: 12px;;">Rezultat računice prelazi 9, poslednja cifra JMBGa ekvivaletna je nuli.</p>                                
-            </div>
+  <div class="w3-center w3-padding" style="margin:0 auto; max-width: 800px;">
+    <div class="w3-card-4">
+      <div [ngClass]="{'w3-indigo': display.pol=='Muški', 'w3-pink': display.pol=='Ženski'}" class="w3-container">
+        <h2>Podaci o osobi na osnovu JMBGa</h2>
+      </div>
+      <div class="razmakGore">
+        <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+          <b>{{display.datum | date : "dd.MM.yyyy."}} se dogodilo:</b>
+        </label>
+        <br>
+      </div>
+      <div *ngFor="let dog of dogodiloSe(display.datum)">
+        <div *ngIf="dog.dogadjaj=='Događaj'">
+          <p style="color:#8c6f8d; display:inline;">&#9873; {{dog.text}}</p>
         </div>
+        <div *ngIf="dog.dogadjaj=='Rođendan'">
+          <p style="color:#55b54c; display:inline;">&#9787; Rodio se</p> {{dog.text}}</div>
+        <!--<div *ngIf="dog.dogadjaj=='Smrt'"><p style="color:#3f443e; display:inline;">&#9766; Umro je</p> {{dog.text}}</div>-->
+      </div>
+      <div *ngIf="dogodiloSe(display.datum).length==0">
+        <p style="color:#ff6816; display:inline;">&#9733; Nažalost nema događaja za dati datum. &#9733;</p>
+      </div>
+      <div class="w3-container" style="padding-bottom: 30px;">
+        <div style="margin-left:50px; margin-top:50px; text-align: left; float:left;">
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Ime:</b>
+            </label>
+            {{display.ime}}
+            <br>
+          </div>
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Prezime:</b>
+            </label>
+            {{display.prezime}}
+            <br>
+          </div>
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Datum rođenja:</b>
+            </label>
+            {{display.datum | date : "dd.MM.yyyy."}}
+            <br>
+          </div>
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Godine:</b>
+            </label>
+            {{godineRodjenja(display.datum)}}
+            <br>
+          </div>
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Dan rođenja:</b>
+            </label>
+            {{display.danUNedelji}}
+            <br>
+          </div>
+          <div class="razmak" style="max-width:400px; text-align: justify;">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Mesto rođenja (širi region):</b>
+            </label>
+            {{display.siriRegion}}
+            <br>
+          </div>
+          <div class="razmak" style="max-width:400px; text-align: justify;">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Mesto rođenja (uži region):</b>
+            </label>
+            {{display.uziRegion}}
+            <br>
+          </div>
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Pol:</b>
+            </label>
+            {{display.pol}}
+            <br>
+          </div>
+          <div class="razmak">
+            <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+              <b>Redosled rođenja:</b>
+            </label>
+            {{display.redosled}}
+            <span [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}"> (za dati datum, oblast i pol)</span>
+            <br>
+          </div>
+        </div>
+        <img *ngIf="display.pol=='Ženski'" src="../../assets/female.png" style="margin-right: 25px; margin-top: 24px; display: unset; width: 200px; height: 200px; float:right">
+        <img *ngIf="display.pol=='Muški'" src="../../assets/male.jpg" style="margin-right: 25px; margin-top: 24px; display: unset; width: 200px; height: 200px; float:right">
+      </div>
+      <div style="width: 100%; padding-bottom: 30px;">
+        <div>
+          <label [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}">
+            <b>Formula za računanje kontrolne cifre:</b>
+          </label>
+          <br>
+        </div>
+        <p style="font-size: 12px;;">L = 11 – (( 7*(A+E) + 6*(B+Ž) + 5*(V+Z) + 4*(G+I) + 3*(D+J) + 2*(Đ+K) ) % 11)</p>
+        <p style="font-size: 12px;;">L = 11 – (( 7*({{vrednost(display.jmbg,"A")}}+{{vrednost(display.jmbg,"E")}}) + 6*({{vrednost(display.jmbg,"B")}}+{{vrednost(display.jmbg,"ZJ")}})
+          + 5*({{vrednost(display.jmbg,"V")}}+{{vrednost(display.jmbg,"Z")}}) + 4*({{vrednost(display.jmbg,"G")}}+{{vrednost(display.jmbg,"I")}})
+          + 3*({{vrednost(display.jmbg,"D")}}+{{vrednost(display.jmbg,"J")}}) + 2*({{vrednost(display.jmbg,"DJ")}}+{{vrednost(display.jmbg,"K")}})
+          ) % 11)</p>
+        <p style="font-size: 12px;;">L = 11 – (( 7*{{vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E")}} + 6*{{vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ")}}
+          + 5*{{vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")}} + 4*{{vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I")}}
+          + 3*{{vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J")}} + 2*{{vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")}}
+          ) % 11)</p>
+        <p style="font-size: 12px;;">L = 11 – (( {{7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))}} + {{6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))}}
+          + {{5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z"))}} + {{4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))}}
+          + {{3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))}} + {{2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K"))}}
+          ) % 11)</p>
+        <p style="font-size: 12px;;">L = 11 – ({{7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))
+          +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K"))}}
+          % 11)</p>
+        <p style="font-size: 12px;;">L = 11 – {{(7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))
+          +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")))%
+          11}}</p>
+        <p style="font-size: 12px;;">L = {{11-(7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))
+          +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")))%
+          11}}</p>
+        <p [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}" *ngIf="display.kontrolnaCifra>0&&display.kontrolnaCifra<10"
+          style="font-size: 12px;;">Rezultat računice je jednak sa poslednjom cifrom JMBGA, odnosno {{display.kontrolnaCifra}}.</p>
+        <p [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}" *ngIf="display.kontrolnaCifra==0"
+          style="font-size: 12px;;">Rezultat računice prelazi 9, poslednja cifra JMBGa ekvivaletna je nuli.</p>
+      </div>
     </div>
+  </div>
 </div>

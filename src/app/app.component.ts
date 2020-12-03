@@ -12,9 +12,11 @@ export class AppComponent {
 
   title = 'JMBG-validator';
   jmbg: string;
+  ime: string = '';
+  prezime: string = '';
   nizGresaka: string[]=[];
   regioni=data["default"];
-  display ={jmbg:"",datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
+  display ={jmbg:"",ime:"",prezime:"",datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
   dani:string[]=["Nedelja","Ponedeljak","Utorak","Sreda","Četvrtak","Petak","Subota"];
 
   validate(){
@@ -39,25 +41,25 @@ export class AppComponent {
     if((dan>31)&&(mesec==1||mesec==3||mesec==5||mesec==7||mesec==8||mesec==10||mesec==12))
     {
       vecrekaoZaGodinu=true;
-      this.nizGresaka.push("Uneli ste vise od 31 dan za dati mesec! (proverite prve dve cifre)");    
+      this.nizGresaka.push("Uneli ste vise od 31 dan za dati mesec! (proverite prve dve cifre)");
     }
 
     if((dan>30)&&(mesec==4||mesec==6||mesec==9||mesec==11))
     {
       vecrekaoZaGodinu=true;
-      this.nizGresaka.push("Uneli ste vise od 30 dana za dati mesec! (proverite prve dve cifre)");    
+      this.nizGresaka.push("Uneli ste vise od 30 dana za dati mesec! (proverite prve dve cifre)");
     }
 
     if((mesec==2)&&(this.jelPrestupna(godina))&&(dan>29))
     {
       vecrekaoZaGodinu=true;
-      this.nizGresaka.push("Uneli ste vise od 29 dana za februar! (proverite prve dve cifre)");    
+      this.nizGresaka.push("Uneli ste vise od 29 dana za februar! (proverite prve dve cifre)");
     }
 
     if((mesec==2)&&(!this.jelPrestupna(godina))&&(dan>28))
     {
       vecrekaoZaGodinu=true;
-      this.nizGresaka.push("Uneli ste vise od 28 dana za februar! (proverite prve dve cifre)");    
+      this.nizGresaka.push("Uneli ste vise od 28 dana za februar! (proverite prve dve cifre)");
     }
 
     let region=Number(this.jmbg.substring(7,9));
@@ -74,7 +76,7 @@ export class AppComponent {
 
     if(today<datumRodjenja)
       this.nizGresaka.push("Uneli ste datum u buducnosti! (proverite prvih sedam cifara)");
-  
+
     let me=this,nasao=false;
     Object.keys(this.regioni).forEach(function (key) {
       if(Number(key)==region){
@@ -83,7 +85,7 @@ export class AppComponent {
         me.display.uziRegion=me.regioni[key].region;
       }
     });
-    
+
     if(!nasao)
       this.nizGresaka.push("Uneli ste region koji ne postoji! (proverite osmu i devetu cifru)");
 
@@ -96,6 +98,8 @@ export class AppComponent {
       this.display.kontrolnaCifra=kontrolnaCifra;
       this.display.datum=datumRodjenja;
       this.display.jmbg=this.jmbg;
+      this.display.ime = this.ime;
+      this.display.prezime =this.prezime;
     }
   }
 
@@ -109,7 +113,7 @@ export class AppComponent {
       return false;
     }
   }
-  
+
   kontrolnaCifra():boolean{
     // ABVGDĐEŽZIJKL
     let a=  Number(this.jmbg.substring(0,1));
@@ -142,9 +146,9 @@ export class AppComponent {
       return false;// not a date
     }
   }
-  
+
   changeJMBG():void{
-    this.display={jmbg:"",datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
+    this.display={jmbg:"",ime:this.ime,prezime:this.prezime,datum:null,danUNedelji:"",siriRegion:"",uziRegion:"",redosled:0,pol:"",kontrolnaCifra:0};
     this.nizGresaka=[];
   }
 }
