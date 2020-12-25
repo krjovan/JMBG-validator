@@ -116,10 +116,12 @@
           % 11)</p>
         <p style="font-size: 12px;;">L = 11 – {{(7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))
           +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")))%
-          11}}</p>
+          11}}
+        </p>
         <p style="font-size: 12px;;">L = {{11-(7*(vrednost(display.jmbg,"A")+vrednost(display.jmbg,"E"))+6*(vrednost(display.jmbg,"B")+vrednost(display.jmbg,"ZJ"))
           +5*(vrednost(display.jmbg,"V")+vrednost(display.jmbg,"Z")) + 4*(vrednost(display.jmbg,"G")+vrednost(display.jmbg,"I"))+3*(vrednost(display.jmbg,"D")+vrednost(display.jmbg,"J"))+2*(vrednost(display.jmbg,"DJ")+vrednost(display.jmbg,"K")))%
-          11}}</p>
+          11}}
+        </p>
         <p [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}" *ngIf="display.kontrolnaCifra>0&&display.kontrolnaCifra<10"
           style="font-size: 12px;;">Rezultat računice je jednak sa poslednjom cifrom JMBGA, odnosno {{display.kontrolnaCifra}}.</p>
         <p [ngClass]="{'w3-text-indigo': display.pol=='Muški', 'w3-text-pink': display.pol=='Ženski'}" *ngIf="display.kontrolnaCifra==0"
